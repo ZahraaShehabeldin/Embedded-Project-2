@@ -152,7 +152,7 @@ int main(void)
 			SSD1306_GotoXY (0,0); 										//Goto 0,0
 			SSD1306_Puts("P1", &Font_11x18, 1);		//puts WORLD on the display
 			SSD1306_GotoXY (0,30); 										//Goto 10,10
-			SSD1306_Puts("FULL", &Font_11x18, 1);		//puts WORLD on the display
+			SSD1306_Puts("F", &Font_11x18, 1);		//puts WORLD on the display
 			SSD1306_UpdateScreen();										//print the changes on the display
 		}
 		else 
@@ -162,11 +162,11 @@ int main(void)
 			SSD1306_GotoXY (0,0); 										//Goto 0,0
 			SSD1306_Puts("P1", &Font_11x18, 1);		//puts WORLD on the display
 			SSD1306_GotoXY (0,30); 										//Goto 10,10
-			SSD1306_Puts("Empty", &Font_11x18, 1);		//puts WORLD on the display
+			SSD1306_Puts("E", &Font_11x18, 1);		//puts WORLD on the display
 			SSD1306_UpdateScreen();										//print the changes on the display
 		}
 		
-		HAL_Delay(1000);
+		HAL_Delay(500);
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
