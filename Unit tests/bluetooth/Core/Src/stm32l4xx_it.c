@@ -60,6 +60,7 @@ extern TIM_HandleTypeDef htim2;
 extern UART_HandleTypeDef huart1;
 extern UART_HandleTypeDef huart2;
 extern char BluetoothMsg[50];
+extern int i;
 /* USER CODE BEGIN EV */
 
 /* USER CODE END EV */
@@ -230,9 +231,26 @@ void USART1_IRQHandler(void)
 	HAL_UART_Receive(&huart1, (uint8_t*)&buffer[buffer_index++], 1, 10); //entrrupt the handler to recieve char by char 
 	
 	if(buffer[buffer_index-1] == '\n') //revieving eof
-		//Message_handler();							//launch this msg handler 
-	strncpy(BluetoothMsg, buffer, strlen(buffer));
-	HAL_UART_Transmit(&huart2, (uint8_t*)buffer, strlen(buffer), 500);
+	{
+		strncpy(BluetoothMsg, buffer, strlen(buffer));
+		HAL_UART_Transmit(&huart2, (uint8_t*)buffer, strlen(buffer), 500);
+		
+		i = string_compare(buffer,"S1\r\n", strlen(buffer));
+		if ( i == 1)
+		{
+				HAL_UART_Transmit(&huart1, (uint8_t*)"SLOT RESERVED.\n", strlen("SLOT RESERVED.\n"), 500); 
+		} 
+		
+	 else 
+			if(strlen(buffer) !=0)
+					HAL_UART_Transmit(&huart1, (uint8_t*)"Try another Slot.\n", strlen("Try another Slot.\n"), 500);
+	
+		//memset(BluetoothMsg, 0, sizeof(BluetoothMsg));	//clear the buffer
+	 // memset(buffer, 0, sizeof(buffer));	//clear the buffer			
+	}	
+	
+	 	
+	
   /* USER CODE END USART1_IRQn 0 */
 	
   HAL_UART_IRQHandler(&huart1);

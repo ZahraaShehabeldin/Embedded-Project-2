@@ -46,7 +46,7 @@ UART_HandleTypeDef huart1;
 UART_HandleTypeDef huart2;
 
 /* USER CODE BEGIN PV */
-int i=5;
+int i=0;
 char BluetoothMsg[50];
 /* USER CODE END PV */
 
@@ -101,6 +101,7 @@ int main(void)
 	HAL_GPIO_WritePin(BluetoothReset_GPIO_Port, BluetoothReset_Pin, GPIO_PIN_SET);
 	HAL_Delay(1000);
 	memset(buffer, 0, sizeof(buffer));	//clear the buffer
+	memset(BluetoothMsg, 0, sizeof(BluetoothMsg));	//clear the buffer
 	HAL_TIM_Base_Start_IT(&htim2);			//launch the timer that launches every 20 msec 
   __HAL_UART_ENABLE_IT(&huart1, UART_IT_RXNE);  //enable UART interrupt
 	__HAL_UART_ENABLE_IT(&huart2, UART_IT_RXNE);  //enable UART interrupt  
@@ -112,13 +113,13 @@ int main(void)
   while (1)
   {
 		
-		if (HAL_GPIO_ReadPin(IR1_GPIO_Port, IR1_Pin) == GPIO_PIN_RESET)
-		{
-			i = 0; //Object detected
-			HAL_UART_Transmit(&huart2, (uint8_t*)"Car detected in Slot 1\n", strlen("Car detected in Slot 1\n"), 500);
-		}
-		else
-			i = 1; //No object
+//		if (HAL_GPIO_ReadPin(IR1_GPIO_Port, IR1_Pin) == GPIO_PIN_RESET)
+//		{
+//			i = 0; //Object detected
+//			HAL_UART_Transmit(&huart2, (uint8_t*)"Car detected in Slot 1\n", strlen("Car detected in Slot 1\n"), 500);
+//		}
+//		else
+//			i = 1; //No object
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
