@@ -48,3 +48,5 @@ project2\main.o: ../Core/Inc/ssd1306.h
 project2\main.o: ../Core/Inc/fonts.h
 project2\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
 project2\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
+project2\main.o: ../Core/Inc/mylibrary.h
+project2\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h

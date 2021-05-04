@@ -5,7 +5,7 @@
 <h2>Tool Versions:</h2>
 IDE-Version: µVision V5.33.0.0
 Copyright (C) 2020 ARM Ltd and ARM Germany GmbH. All rights reserved.
-License Information: Marwah Sulaiman, AUC, LIC=----
+License Information: Zahraa Shehabeldin, AUC, LIC=----
  
 Tool Versions:
 Toolchain:       MDK-Lite  Version: 5.33.0.0
@@ -21,26 +21,36 @@ Target DLL:      STLink\ST-LINKIII-KEIL_SWO.dll V3.0.8.0
 Dialog DLL:      TCM.DLL V1.48.0.0
  
 <h2>Project:</h2>
-D:\AUC\Spring 21\Embedded\Project 2\project2\MDK-ARM\project2.uvprojx
-Project File Date:  05/03/2021
+C:\Users\Zahraa\Documents\GitHub\Embedded-Project-2\Project\project2\MDK-ARM\project2.uvprojx
+Project File Date:  05/04/2021
 
 <h2>Output:</h2>
 *** Using Compiler 'V5.06 update 7 (build 960)', folder: 'C:\Keil_v5\ARM\ARMCC\Bin'
 Build target 'project2'
+compiling stm32l4xx_it.c...
+../Core/Inc/mylibrary.h(23): warning:  #1295-D: Deprecated declaration Message_handler - give arg types
+  void Message_handler();
+../Core/Src/stm32l4xx_it.c: 1 warning, 0 errors
+compiling mylibrary.c...
+../Core/Inc/mylibrary.h(23): warning:  #1295-D: Deprecated declaration Message_handler - give arg types
+  void Message_handler();
+..\Core\Src\mylibrary.c: 1 warning, 0 errors
 compiling main.c...
 ../Core/Inc/ssd1306.h(238): warning:  #1295-D: Deprecated declaration ssd1306_I2C_Init - give arg types
   void ssd1306_I2C_Init();
-../Core/Src/main.c(175): warning:  #188-D: enumerated type mixed with another type
+../Core/Inc/mylibrary.h(23): warning:  #1295-D: Deprecated declaration Message_handler - give arg types
+  void Message_handler();
+../Core/Src/main.c(184): warning:  #188-D: enumerated type mixed with another type
   			SSD1306_Puts(slots[slotNum].name, &Font_11x18, 1);		//puts WORLD on the display
-../Core/Src/main.c(177): warning:  #188-D: enumerated type mixed with another type
+../Core/Src/main.c(186): warning:  #188-D: enumerated type mixed with another type
   			SSD1306_Puts(&slots[slotNum].status, &Font_11x18, 1);		//puts WORLD on the display
-../Core/Src/main.c(314): warning:  #188-D: enumerated type mixed with another type
+../Core/Src/main.c(250): warning:  #188-D: enumerated type mixed with another type
   	SSD1306_Fill (0); 												//fill color 0 ie black
-../Core/Src/main.c: 4 warnings, 0 errors
+../Core/Src/main.c: 5 warnings, 0 errors
 linking...
-Program Size: Code=17292 RO-data=4352 RW-data=208 ZI-data=9664  
+Program Size: Code=17024 RO-data=4352 RW-data=196 ZI-data=7980  
 FromELF: creating hex file...
-"project2\project2.axf" - 0 Error(s), 4 Warning(s).
+"project2\project2.axf" - 0 Error(s), 7 Warning(s).
 
 <h2>Software Packages used:</h2>
 
@@ -57,13 +67,13 @@ Package Vendor: Keil
 
 <h2>Collection of Component include folders:</h2>
   .\RTE\_project2
-  C:\Users\marwa\AppData\Local\Arm\Packs\ARM\CMSIS\5.7.0\CMSIS\Core\Include
-  C:\Users\marwa\AppData\Local\Arm\Packs\Keil\STM32L4xx_DFP\2.5.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include
+  C:\Users\Zahraa\AppData\Local\Arm\Packs\ARM\CMSIS\5.7.0\CMSIS\Core\Include
+  C:\Users\Zahraa\AppData\Local\Arm\Packs\Keil\STM32L4xx_DFP\2.5.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include
 
 <h2>Collection of Component Files used:</h2>
 
    * Component: ARM::CMSIS:CORE:5.4.0
-Build Time Elapsed:  00:00:06
+Build Time Elapsed:  00:00:05
 </pre>
 </body>
 </html>

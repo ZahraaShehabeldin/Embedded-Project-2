@@ -23,6 +23,8 @@
 #include "stm32l4xx_it.h"
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
+#include "mylibrary.h"
+#include <stdlib.h>
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -42,7 +44,8 @@
 
 /* Private variables ---------------------------------------------------------*/
 /* USER CODE BEGIN PV */
-
+extern int i;
+extern int count;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -56,6 +59,8 @@
 /* USER CODE END 0 */
 
 /* External variables --------------------------------------------------------*/
+extern UART_HandleTypeDef huart1;
+extern UART_HandleTypeDef huart2;
 extern TIM_HandleTypeDef htim1;
 
 /* USER CODE BEGIN EV */
@@ -172,6 +177,59 @@ void TIM1_UP_TIM16_IRQHandler(void)
   /* USER CODE BEGIN TIM1_UP_TIM16_IRQn 1 */
 
   /* USER CODE END TIM1_UP_TIM16_IRQn 1 */
+}
+
+/**
+  * @brief This function handles USART1 global interrupt.
+  */
+void USART1_IRQHandler(void)
+{
+  /* USER CODE BEGIN USART1_IRQn 0 */
+	
+	HAL_UART_Receive(&huart1, (uint8_t*)&buffer[buffer_index++], 1, 10); //entrrupt the handler to recieve char by char 
+	
+	if(buffer[buffer_index-1] == '\n') //revieving eof
+	{
+		strncpy(BluetoothMsg, buffer, strlen(buffer));
+		HAL_UART_Transmit(&huart2, (uint8_t*)buffer, strlen(buffer), 500);
+		
+		i = string_compare(buffer,"S1\r\n", strlen(buffer));
+		if ( i == 1)
+		{
+				HAL_UART_Transmit(&huart1, (uint8_t*)"SLOT RESERVED.\n", strlen("SLOT RESERVED.\n"), 500); 
+		} 
+		
+	 else 
+			if(strlen(buffer) != 0)
+					HAL_UART_Transmit(&huart1, (uint8_t*)"Try another Slot.\n", strlen("Try another Slot.\n"), 500);
+	
+			
+		//memset(BluetoothMsg, 0, sizeof(BluetoothMsg));	//clear the buffer
+	 //memset(buffer, 0, sizeof(buffer));	//clear the buffer	
+		//free(buffer);
+		memset(buffer, 0, 50* (sizeof buffer[0]) );	
+		buffer_index =0;
+	}	
+	
+  /* USER CODE END USART1_IRQn 0 */
+  HAL_UART_IRQHandler(&huart1);
+  /* USER CODE BEGIN USART1_IRQn 1 */
+
+  /* USER CODE END USART1_IRQn 1 */
+}
+
+/**
+  * @brief This function handles USART2 global interrupt.
+  */
+void USART2_IRQHandler(void)
+{
+  /* USER CODE BEGIN USART2_IRQn 0 */
+
+  /* USER CODE END USART2_IRQn 0 */
+  HAL_UART_IRQHandler(&huart2);
+  /* USER CODE BEGIN USART2_IRQn 1 */
+
+  /* USER CODE END USART2_IRQn 1 */
 }
 
 /* USER CODE BEGIN 1 */
