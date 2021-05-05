@@ -26,6 +26,12 @@
 #include "ssd1306.h"
 #include "fonts.h"
 #include "mylibrary.h"
+#include <stdlib.h>
+#include "FreeRTOS.h"
+#include "queue.h"
+#include "cmsis_os.h"
+#include "semphr.h"
+
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -76,7 +82,7 @@ osThreadId_t myTask04Handle;
 const osThreadAttr_t myTask04_attributes = {
   .name = "myTask04",
   .stack_size = 128 * 4,
-  .priority = (osPriority_t) osPriorityNormal,
+  .priority = (osPriority_t) osPriorityAboveNormal,
 };
 /* Definitions for myTask05 */
 osThreadId_t myTask05Handle;
@@ -126,10 +132,12 @@ const osSemaphoreAttr_t myBinarySem02_attributes = {
 	
 	uint8_t nl[2] ="\r\n";
 
-	int slots_num=4; /*number of slots*/
+	int slots_num = 4; /*number of slots*/
 	
 	uint8_t check;
 	slot slots[4];
+	
+	char* BCompare;
 
 /* USER CODE END PV */
 
@@ -149,7 +157,7 @@ void StartTask05(void *argument);
 /* USER CODE BEGIN PFP */
 void readSensors(slot slots[slots_num]);
 void DisplaySlot(int slotNum, int x1, int y1,int x2,int y2, slot slots[slots_num]);
-
+void SendReceive_BT();
 
 /* USER CODE END PFP */
 
@@ -161,40 +169,114 @@ char BluetoothMsg[50];
 
 void readSensors(slot slots[slots_num])
 {
-
+//taskENTER_CRITICAL();
 for (int i=0;i<slots_num;i++)
 	{
 	if(HAL_GPIO_ReadPin(slots[i].port , slots[i].pin)== GPIO_PIN_RESET) /*obstacle is detected*/
 		slots[i].status='F';
 	else
-		slots[i].status='E';
+		if(slots[i].status !='B')
+				slots[i].status='E';
 //		
 //	HAL_UART_Transmit(&huart2,slots[i].name,10,5000);
 //	HAL_UART_Transmit(&huart2,&slots[i].status,1,5000);
 //	HAL_UART_Transmit(&huart2,nl,2,5000);
 	
 	}
+//taskEXIT_CRITICAL();
 
 }
 
 void DisplaySlot(int slotNum, int x1, int y1,int x2,int y2, slot slots[slots_num])
 {
+
 			SSD1306_UpdateScreen();										//print the changes on the display	
 			SSD1306_GotoXY (x1,y1); 										//Goto 0,0
 			SSD1306_Puts(slots[slotNum].name, &Font_11x18, 1);		//puts WORLD on the display
 			SSD1306_GotoXY (x2,y2); 										//Goto 10,10
 			SSD1306_Puts(&slots[slotNum].status, &Font_11x18, 1);		//puts WORLD on the display
 			SSD1306_UpdateScreen();										//print the changes on the display
+
 }
 
 void DisplayOLED(slot slots[slots_num])
 {
+	//taskENTER_CRITICAL();
+
 		for(int i=0;i<slots_num;i++)
 	{
 		DisplaySlot(i, i*30, 0, i*30, 30, slots);
 	}
+//	taskEXIT_CRITICAL();
+
 
 }
+void Booking_BT()
+{
+
+	if(HAL_UART_Receive(&huart1, (uint8_t*)&buffer[buffer_index++], 1, 10)==HAL_OK) //entrrupt the handler to recieve char by char 
+	{
+	if(buffer[buffer_index-1] == '\n') //revieving eof
+	{
+//		strncpy(BluetoothMsg, buffer, strlen(buffer));
+//		HAL_UART_Transmit(&huart2, (uint8_t*)buffer, strlen(buffer), 500);
+//		
+//		i = string_compare(buffer,"S1\r\n", strlen(buffer));
+//		if ( i == 1)
+//		{
+//				HAL_UART_Transmit(&huart1, (uint8_t*)"SLOT RESERVED.\n", strlen("SLOT RESERVED.\n"), 500); 
+//		} 
+//		
+//	 else 
+//			if(strlen(buffer) != 0)
+//					HAL_UART_Transmit(&huart1, (uint8_t*)"Try another Slot.\n", strlen("Try another Slot.\n"), 500);
+	
+		
+			//taskENTER_CRITICAL();
+
+		for (int j=0; j< slots_num; j++)
+		{
+			//BCompare = (char *) malloc(1 + strlen(slots[j].name)+ strlen("S1\r\n") );
+      strcpy(BCompare, slots[j].name); //P1
+      strcat(BCompare, "\r\n");
+
+			if (string_compare(BCompare, buffer, strlen(buffer)) == 1)  //P1 == P1
+			{
+				if (slots[j].status == 'E')			//Slot can be reservd 
+			{
+					HAL_UART_Transmit(&huart1, (uint8_t*)"SLOT RESERVED.\n", strlen("SLOT RESERVED.\n"), 500); 
+				  slots[j].status = 'B';
+					memset(BCompare, 0, 50* (sizeof BCompare[0]) );	//clear the BCCompare
+					//free(BCompare);
+			}
+			else if (slots[j].status == 'F') //Slot cannot be reservd 
+			{
+				HAL_UART_Transmit(&huart1, (uint8_t*)"Please choose another slot.\n", strlen("Please chose another slot.\n"), 500);
+				memset(BCompare, 0, 50* (sizeof BCompare[0]) );	//clear the BCCompare
+				//free(BCompare);
+			}
+			else   //Invalid input
+			{
+				HAL_UART_Transmit(&huart1, (uint8_t*)"Invalid Input.\n", strlen("Invalid Input.\n"), 500);
+				memset(BCompare, 0, 50* (sizeof BCompare[0]) );	//clear the BCCompare
+				//free(BCompare);
+			}
+		
+			}
+				 					
+		}
+		//	taskEXIT_CRITICAL();
+
+			
+	 	//memset(BluetoothMsg, 0, sizeof(BluetoothMsg));	//clear the buffer
+    //free(BCompare);
+		memset(buffer, 0, 50* (sizeof buffer[0]) );	//clear the buffer	
+		buffer_index =0;
+	}
+}
+		__HAL_UART_ENABLE_IT(&huart1, UART_IT_RXNE);
+}
+	
 /* USER CODE END 0 */
 
 /**
@@ -250,9 +332,9 @@ int main(void)
 	SSD1306_Fill (0); 												//fill color 0 ie black
 	SSD1306_UpdateScreen();										//print the changes on the display
 	
-//	SSD1306_GotoXY (0,0); 										//Goto 0,0
-//	SSD1306_Puts("HELLO", &Font_11x18, 0x01);		//puts HELLO on the display with color ie blue
-//	SSD1306_UpdateScreen();										//print the changes on the display
+	SSD1306_GotoXY (0,0); 										//Goto 0,0
+	SSD1306_Puts("HELLO", &Font_11x18, 0x01);		//puts HELLO on the display with color ie blue
+	SSD1306_UpdateScreen();										//print the changes on the display
 //	
 //	SSD1306_GotoXY (10,0); 										//Goto 10,10
 //	SSD1306_Puts("WORLD", &Font_11x18, 1);		//puts WORLD on the display
@@ -270,7 +352,6 @@ int main(void)
 //	SSD1306_UpdateScreen();										//print the changes on the display	
 	
   /* USER CODE END 2 */
-
   /* Init scheduler */
   osKernelInitialize();
   /* Create the mutex(es) */
@@ -335,7 +416,7 @@ int main(void)
   /* USER CODE END RTOS_EVENTS */
 
   /* Start scheduler */
-  //osKernelStart();
+  osKernelStart();
 
   /* We should never get here as control is now taken by the scheduler */
   /* Infinite loop */
@@ -345,7 +426,6 @@ int main(void)
   while (1)
   {
 	
-		
 //		readSensors(slots);
 
 //		HAL_Delay(1000);
@@ -710,6 +790,13 @@ void StartTask04(void *argument)
   /* Infinite loop */
   for(;;)
   {
+		if(xSemaphoreTake(myBinarySem01Handle, 9999999))
+		{
+				Booking_BT();		//Booking Bluetooth
+			
+
+		}
+
     osDelay(1);
   }
   /* USER CODE END StartTask04 */
