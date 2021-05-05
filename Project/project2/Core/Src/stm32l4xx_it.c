@@ -25,6 +25,10 @@
 /* USER CODE BEGIN Includes */
 #include "mylibrary.h"
 #include <stdlib.h>
+#include "FreeRTOS.h"
+#include "queue.h"
+#include "cmsis_os.h"
+#include "semphr.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -46,6 +50,8 @@
 /* USER CODE BEGIN PV */
 extern int i;
 extern int count;
+extern osSemaphoreId_t myBinarySem01Handle;
+
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -186,30 +192,33 @@ void USART1_IRQHandler(void)
 {
   /* USER CODE BEGIN USART1_IRQn 0 */
 	
-	HAL_UART_Receive(&huart1, (uint8_t*)&buffer[buffer_index++], 1, 10); //entrrupt the handler to recieve char by char 
+	__HAL_UART_DISABLE_IT(&huart1, UART_IT_RXNE);
+	 xSemaphoreGiveFromISR(myBinarySem01Handle, NULL);
 	
-	if(buffer[buffer_index-1] == '\n') //revieving eof
-	{
-		strncpy(BluetoothMsg, buffer, strlen(buffer));
-		HAL_UART_Transmit(&huart2, (uint8_t*)buffer, strlen(buffer), 500);
-		
-		i = string_compare(buffer,"S1\r\n", strlen(buffer));
-		if ( i == 1)
-		{
-				HAL_UART_Transmit(&huart1, (uint8_t*)"SLOT RESERVED.\n", strlen("SLOT RESERVED.\n"), 500); 
-		} 
-		
-	 else 
-			if(strlen(buffer) != 0)
-					HAL_UART_Transmit(&huart1, (uint8_t*)"Try another Slot.\n", strlen("Try another Slot.\n"), 500);
-	
-			
-		//memset(BluetoothMsg, 0, sizeof(BluetoothMsg));	//clear the buffer
-	 //memset(buffer, 0, sizeof(buffer));	//clear the buffer	
-		//free(buffer);
-		memset(buffer, 0, 50* (sizeof buffer[0]) );	
-		buffer_index =0;
-	}	
+	/* This part is  */
+//	HAL_UART_Receive(&huart1, (uint8_t*)&buffer[buffer_index++], 1, 10); //entrrupt the handler to recieve char by char 
+//	
+//	if(buffer[buffer_index-1] == '\n') //revieving eof
+//	{
+//		strncpy(BluetoothMsg, buffer, strlen(buffer));
+//		HAL_UART_Transmit(&huart2, (uint8_t*)buffer, strlen(buffer), 500);
+//		
+//		i = string_compare(buffer,"S1\r\n", strlen(buffer));
+//		if ( i == 1)
+//		{
+//				HAL_UART_Transmit(&huart1, (uint8_t*)"SLOT RESERVED.\n", strlen("SLOT RESERVED.\n"), 500); 
+//		} 
+//		
+//	 else 
+//			if(strlen(buffer) != 0)
+//					HAL_UART_Transmit(&huart1, (uint8_t*)"Try another Slot.\n", strlen("Try another Slot.\n"), 500);
+//	
+//			
+//	 	//memset(BluetoothMsg, 0, sizeof(BluetoothMsg));	//clear the buffer
+//   //free(buffer);
+//		memset(buffer, 0, 50* (sizeof buffer[0]) );	//clear the buffer	
+//		buffer_index =0;
+//	}	
 	
   /* USER CODE END USART1_IRQn 0 */
   HAL_UART_IRQHandler(&huart1);
