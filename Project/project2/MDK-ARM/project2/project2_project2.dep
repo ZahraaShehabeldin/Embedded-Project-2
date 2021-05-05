@@ -73,7 +73,7 @@ I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_tim_ex.h)(0x6090C1A8)
 I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_uart.h)(0x6090C1A8)
 I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_uart_ex.h)(0x6090C1A8)
 I (C:\Keil_v5\ARM\ARMCC\include\string.h)(0x5E8E8312)
-F (../Core/Src/main.c)(0x6090D6A5)(--c99 -c --cpu Cortex-M4.fp.sp -D__EVAL -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32L4xx_HAL_Driver/Inc -I ../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32L4xx/Include -I ../Drivers/CMSIS/Include -I ../Middlewares/Third_Party/FreeRTOS/Source/include -I ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2 -I ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F-I.\RTE\_project2-IC:\Users\Zahraa\AppData\Local\Arm\Packs\ARM\CMSIS\5.7.0\CMSIS\Core\Include-IC:\Users\Zahraa\AppData\Local\Arm\Packs\Keil\STM32L4xx_DFP\2.5.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include-D__UVISION_VERSION="533" -D_RTE_ -DSTM32L432xx -D_RTE_ -DUSE_HAL_DRIVER -DSTM32L432xx-o project2\main.o --omf_browse project2\main.crf --depend project2\main.d)
+F (../Core/Src/main.c)(0x60932161)(--c99 -c --cpu Cortex-M4.fp.sp -D__EVAL -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32L4xx_HAL_Driver/Inc -I ../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32L4xx/Include -I ../Drivers/CMSIS/Include -I ../Middlewares/Third_Party/FreeRTOS/Source/include -I ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2 -I ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F-I.\RTE\_project2-IC:\Users\Zahraa\AppData\Local\Arm\Packs\ARM\CMSIS\5.7.0\CMSIS\Core\Include-IC:\Users\Zahraa\AppData\Local\Arm\Packs\Keil\STM32L4xx_DFP\2.5.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include-D__UVISION_VERSION="533" -D_RTE_ -DSTM32L432xx -D_RTE_ -DUSE_HAL_DRIVER -DSTM32L432xx-o project2\main.o --omf_browse project2\main.crf --depend project2\main.d)
 I (../Core/Inc/main.h)(0x6090C611)
 I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal.h)(0x6090C1A8)
 I (../Core/Inc/stm32l4xx_hal_conf.h)(0x6090C610)
@@ -124,6 +124,8 @@ I (C:\Keil_v5\ARM\ARMCC\include\string.h)(0x5E8E8312)
 I (C:\Keil_v5\ARM\ARMCC\include\stdlib.h)(0x5E8E8312)
 I (../Core/Inc/mylibrary.h)(0x6090D70B)
 I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x5E8E8312)
+I (../Middlewares/Third_Party/FreeRTOS/Source/include/queue.h)(0x6090C1B6)
+I (../Middlewares/Third_Party/FreeRTOS/Source/include/semphr.h)(0x6090C1B6)
 F (../Core/Src/freertos.c)(0x6090C60F)(--c99 -c --cpu Cortex-M4.fp.sp -D__EVAL -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32L4xx_HAL_Driver/Inc -I ../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32L4xx/Include -I ../Drivers/CMSIS/Include -I ../Middlewares/Third_Party/FreeRTOS/Source/include -I ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2 -I ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F-I.\RTE\_project2-IC:\Users\Zahraa\AppData\Local\Arm\Packs\ARM\CMSIS\5.7.0\CMSIS\Core\Include-IC:\Users\Zahraa\AppData\Local\Arm\Packs\Keil\STM32L4xx_DFP\2.5.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include-D__UVISION_VERSION="533" -D_RTE_ -DSTM32L432xx -D_RTE_ -DUSE_HAL_DRIVER -DSTM32L432xx-o project2\freertos.o --omf_browse project2\freertos.crf --depend project2\freertos.d)
 I (../Middlewares/Third_Party/FreeRTOS/Source/include/FreeRTOS.h)(0x6090C1B6)
 I (C:\Keil_v5\ARM\ARMCC\include\stddef.h)(0x5E8E8312)
@@ -167,7 +169,7 @@ I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_tim.h)(0x6090C1A8)
 I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_tim_ex.h)(0x6090C1A8)
 I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_uart.h)(0x6090C1A8)
 I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_uart_ex.h)(0x6090C1A8)
-F (../Core/Src/stm32l4xx_it.c)(0x6090D708)(--c99 -c --cpu Cortex-M4.fp.sp -D__EVAL -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32L4xx_HAL_Driver/Inc -I ../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32L4xx/Include -I ../Drivers/CMSIS/Include -I ../Middlewares/Third_Party/FreeRTOS/Source/include -I ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2 -I ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F-I.\RTE\_project2-IC:\Users\Zahraa\AppData\Local\Arm\Packs\ARM\CMSIS\5.7.0\CMSIS\Core\Include-IC:\Users\Zahraa\AppData\Local\Arm\Packs\Keil\STM32L4xx_DFP\2.5.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include-D__UVISION_VERSION="533" -D_RTE_ -DSTM32L432xx -D_RTE_ -DUSE_HAL_DRIVER -DSTM32L432xx-o project2\stm32l4xx_it.o --omf_browse project2\stm32l4xx_it.crf --depend project2\stm32l4xx_it.d)
+F (../Core/Src/stm32l4xx_it.c)(0x6092DF17)(--c99 -c --cpu Cortex-M4.fp.sp -D__EVAL -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32L4xx_HAL_Driver/Inc -I ../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32L4xx/Include -I ../Drivers/CMSIS/Include -I ../Middlewares/Third_Party/FreeRTOS/Source/include -I ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2 -I ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F-I.\RTE\_project2-IC:\Users\Zahraa\AppData\Local\Arm\Packs\ARM\CMSIS\5.7.0\CMSIS\Core\Include-IC:\Users\Zahraa\AppData\Local\Arm\Packs\Keil\STM32L4xx_DFP\2.5.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include-D__UVISION_VERSION="533" -D_RTE_ -DSTM32L432xx -D_RTE_ -DUSE_HAL_DRIVER -DSTM32L432xx-o project2\stm32l4xx_it.o --omf_browse project2\stm32l4xx_it.crf --depend project2\stm32l4xx_it.d)
 I (../Core/Inc/main.h)(0x6090C611)
 I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal.h)(0x6090C1A8)
 I (../Core/Inc/stm32l4xx_hal_conf.h)(0x6090C610)
@@ -206,6 +208,19 @@ I (../Core/Inc/mylibrary.h)(0x6090D70B)
 I (C:\Keil_v5\ARM\ARMCC\include\string.h)(0x5E8E8312)
 I (C:\Keil_v5\ARM\ARMCC\include\stdlib.h)(0x5E8E8312)
 I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x5E8E8312)
+I (../Middlewares/Third_Party/FreeRTOS/Source/include/FreeRTOS.h)(0x6090C1B6)
+I (../Core/Inc/FreeRTOSConfig.h)(0x6090C60F)
+I (../Middlewares/Third_Party/FreeRTOS/Source/include/projdefs.h)(0x6090C1B6)
+I (../Middlewares/Third_Party/FreeRTOS/Source/include/portable.h)(0x6090C1B6)
+I (../Middlewares/Third_Party/FreeRTOS/Source/include/deprecated_definitions.h)(0x6090C1B6)
+I (../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F/portmacro.h)(0x6090C1B6)
+I (../Middlewares/Third_Party/FreeRTOS/Source/include/mpu_wrappers.h)(0x6090C1B6)
+I (../Middlewares/Third_Party/FreeRTOS/Source/include/queue.h)(0x6090C1B6)
+I (../Middlewares/Third_Party/FreeRTOS/Source/include/task.h)(0x6090C1B6)
+I (../Middlewares/Third_Party/FreeRTOS/Source/include/list.h)(0x6090C1B6)
+I (../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2/cmsis_os.h)(0x6090C1B6)
+I (../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2/cmsis_os2.h)(0x6090C1B6)
+I (../Middlewares/Third_Party/FreeRTOS/Source/include/semphr.h)(0x6090C1B6)
 F (../Core/Src/stm32l4xx_hal_msp.c)(0x6090C610)(--c99 -c --cpu Cortex-M4.fp.sp -D__EVAL -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32L4xx_HAL_Driver/Inc -I ../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32L4xx/Include -I ../Drivers/CMSIS/Include -I ../Middlewares/Third_Party/FreeRTOS/Source/include -I ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2 -I ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F-I.\RTE\_project2-IC:\Users\Zahraa\AppData\Local\Arm\Packs\ARM\CMSIS\5.7.0\CMSIS\Core\Include-IC:\Users\Zahraa\AppData\Local\Arm\Packs\Keil\STM32L4xx_DFP\2.5.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include-D__UVISION_VERSION="533" -D_RTE_ -DSTM32L432xx -D_RTE_ -DUSE_HAL_DRIVER -DSTM32L432xx-o project2\stm32l4xx_hal_msp.o --omf_browse project2\stm32l4xx_hal_msp.crf --depend project2\stm32l4xx_hal_msp.d)
 I (../Core/Inc/main.h)(0x6090C611)
 I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal.h)(0x6090C1A8)

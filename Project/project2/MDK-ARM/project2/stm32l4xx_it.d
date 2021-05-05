@@ -38,3 +38,16 @@ project2\stm32l4xx_it.o: ../Core/Inc/mylibrary.h
 project2\stm32l4xx_it.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
 project2\stm32l4xx_it.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
 project2\stm32l4xx_it.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
+project2\stm32l4xx_it.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/FreeRTOS.h
+project2\stm32l4xx_it.o: ../Core/Inc/FreeRTOSConfig.h
+project2\stm32l4xx_it.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/projdefs.h
+project2\stm32l4xx_it.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/portable.h
+project2\stm32l4xx_it.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/deprecated_definitions.h
+project2\stm32l4xx_it.o: ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F/portmacro.h
+project2\stm32l4xx_it.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/mpu_wrappers.h
+project2\stm32l4xx_it.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/queue.h
+project2\stm32l4xx_it.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/task.h
+project2\stm32l4xx_it.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/list.h
+project2\stm32l4xx_it.o: ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2/cmsis_os.h
+project2\stm32l4xx_it.o: ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2/cmsis_os2.h
+project2\stm32l4xx_it.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/semphr.h

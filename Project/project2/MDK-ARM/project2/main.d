@@ -50,3 +50,5 @@ project2\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
 project2\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
 project2\main.o: ../Core/Inc/mylibrary.h
 project2\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
+project2\main.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/queue.h
+project2\main.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/semphr.h
