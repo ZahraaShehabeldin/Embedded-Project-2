@@ -1,0 +1,11 @@
+1. https://www.instructables.com/WiFi-Communication-Between-Two-ESP8266-Based-MCU-T/
+
+Shows modules and connections of connecting two esp chips based MCU through the Home Router over WiFi
+
+2. https://www.instructables.com/ESP8266-As-a-Microcontroller/
+
+Shows the setup and connection of an ESP8266 MCU
+
+3. https://circuitdigest.com/microcontroller-projects/interfacing-esp8266-with-stm32f103c8-stm32-to-create-a-webserver
+
+Shows hos to interface ESP8266 Wi-Fi module with STM32F103C8 board and send the data to a webpage hosted on ESP8266 webserver.
