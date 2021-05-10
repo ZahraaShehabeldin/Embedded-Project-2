@@ -82,7 +82,7 @@ osThreadId_t myTask04Handle;
 const osThreadAttr_t myTask04_attributes = {
   .name = "myTask04",
   .stack_size = 128 * 4,
-  .priority = (osPriority_t) osPriorityAboveNormal,
+  .priority = (osPriority_t) osPriorityNormal,
 };
 /* Definitions for myTask05 */
 osThreadId_t myTask05Handle;
@@ -122,8 +122,9 @@ const osSemaphoreAttr_t myBinarySem02_attributes = {
   .name = "myBinarySem02"
 };
 /* USER CODE BEGIN PV */
+SemaphoreHandle_t xSemaphore;
 
-	typedef struct {
+typedef struct {
 	GPIO_TypeDef* port;
 	uint16_t pin;
 	char status;
@@ -138,6 +139,9 @@ const osSemaphoreAttr_t myBinarySem02_attributes = {
 	slot slots[4];
 	
 	char* BCompare;
+	int var=9;
+	char* str = "\r\n";
+	int flag =0;
 
 /* USER CODE END PV */
 
@@ -213,10 +217,14 @@ void DisplayOLED(slot slots[slots_num])
 }
 void Booking_BT()
 {
+	//buffer_index =0;
 
 	if(HAL_UART_Receive(&huart1, (uint8_t*)&buffer[buffer_index++], 1, 10)==HAL_OK) //entrrupt the handler to recieve char by char 
 	{
+				flag=0;
+
 	if(buffer[buffer_index-1] == '\n') //revieving eof
+	
 	{
 //		strncpy(BluetoothMsg, buffer, strlen(buffer));
 //		HAL_UART_Transmit(&huart2, (uint8_t*)buffer, strlen(buffer), 500);
@@ -230,41 +238,42 @@ void Booking_BT()
 //	 else 
 //			if(strlen(buffer) != 0)
 //					HAL_UART_Transmit(&huart1, (uint8_t*)"Try another Slot.\n", strlen("Try another Slot.\n"), 500);
-	
 		
 			//taskENTER_CRITICAL();
-
 		for (int j=0; j< slots_num; j++)
 		{
-			//BCompare = (char *) malloc(1 + strlen(slots[j].name)+ strlen("S1\r\n") );
+			BCompare = (char *) malloc(1 + strlen(slots[j].name)+ strlen(str));
       strcpy(BCompare, slots[j].name); //P1
-      strcat(BCompare, "\r\n");
+      strcat(BCompare, str);
+			//var = string_compare(buffer,BCompare,strlen(buffer));
+			var= strcmp(BCompare, buffer);
+			
+			free(BCompare);
 
-			if (string_compare(BCompare, buffer, strlen(buffer)) == 1)  //P1 == P1
+			if (var == 0)  //P1 == P1
 			{
+				flag=1;
 				if (slots[j].status == 'E')			//Slot can be reservd 
 			{
 					HAL_UART_Transmit(&huart1, (uint8_t*)"SLOT RESERVED.\n", strlen("SLOT RESERVED.\n"), 500); 
 				  slots[j].status = 'B';
-					memset(BCompare, 0, 50* (sizeof BCompare[0]) );	//clear the BCCompare
-					//free(BCompare);
+					//memset(BCompare, 0, 50* (sizeof BCompare[0]) );	//clear the BCCompare
 			}
-			else if (slots[j].status == 'F') //Slot cannot be reservd 
+			else if (slots[j].status == 'F'||slots[j].status == 'B') //Slot cannot be reservd 
 			{
 				HAL_UART_Transmit(&huart1, (uint8_t*)"Please choose another slot.\n", strlen("Please chose another slot.\n"), 500);
-				memset(BCompare, 0, 50* (sizeof BCompare[0]) );	//clear the BCCompare
-				//free(BCompare);
+				//memset(BCompare, 0, 50* (sizeof BCompare[0]) );	//clear the BCCompare
 			}
-			else   //Invalid input
+		}
+			 					
+		}
+		if(flag==0)   //Invalid input
 			{
 				HAL_UART_Transmit(&huart1, (uint8_t*)"Invalid Input.\n", strlen("Invalid Input.\n"), 500);
-				memset(BCompare, 0, 50* (sizeof BCompare[0]) );	//clear the BCCompare
-				//free(BCompare);
+				//memset(BCompare, 0, 50* (sizeof BCompare[0]) );	//clear the BCCompare
+				flag =1;
 			}
 		
-			}
-				 					
-		}
 		//	taskEXIT_CRITICAL();
 
 			
@@ -275,7 +284,8 @@ void Booking_BT()
 	}
 }
 		__HAL_UART_ENABLE_IT(&huart1, UART_IT_RXNE);
-}
+
+	}
 	
 /* USER CODE END 0 */
 
@@ -362,6 +372,9 @@ int main(void)
   myMutex02Handle = osMutexNew(&myMutex02_attributes);
 
   /* USER CODE BEGIN RTOS_MUTEX */
+		xSemaphore = xSemaphoreCreateMutex();
+
+
   /* add mutexes, ... */
   /* USER CODE END RTOS_MUTEX */
 
@@ -792,8 +805,13 @@ void StartTask04(void *argument)
   {
 		if(xSemaphoreTake(myBinarySem01Handle, 9999999))
 		{
+				if(xSemaphoreTake(xSemaphore, 1000))
+				{
+
 				Booking_BT();		//Booking Bluetooth
-			
+				xSemaphoreGive(xSemaphore);		//UART1 Semaphore/Mutex
+
+				}
 
 		}
 
