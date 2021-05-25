@@ -591,12 +591,12 @@ ARM Macro Assembler    Page 10
 
 Command Line: --debug --xref --diag_suppress=9931 --cpu=Cortex-M4.fp.sp --apcs=
 interwork --depend=project2\startup_stm32l432xx.d -oproject2\startup_stm32l432x
-x.o -I..\Core\Inc -I.\RTE\_project2 -IC:\Users\Zahraa\AppData\Local\Arm\Packs\A
-RM\CMSIS\5.7.0\CMSIS\Core\Include -IC:\Users\Zahraa\AppData\Local\Arm\Packs\Kei
-l\STM32L4xx_DFP\2.5.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include --predefine="__
-EVAL SETA 1" --predefine="__MICROLIB SETA 1" --predefine="__UVISION_VERSION SET
-A 533" --predefine="_RTE_ SETA 1" --predefine="STM32L432xx SETA 1" --predefine=
-"_RTE_ SETA 1" --list=startup_stm32l432xx.lst startup_stm32l432xx.s
+x.o -I..\Core\Inc -I.\RTE\_project2 -IC:\Users\marwa\AppData\Local\Arm\Packs\AR
+M\CMSIS\5.7.0\CMSIS\Core\Include -IC:\Users\marwa\AppData\Local\Arm\Packs\Keil\
+STM32L4xx_DFP\2.5.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include --predefine="__EV
+AL SETA 1" --predefine="__MICROLIB SETA 1" --predefine="__UVISION_VERSION SETA 
+533" --predefine="_RTE_ SETA 1" --predefine="STM32L432xx SETA 1" --predefine="_
+RTE_ SETA 1" --list=startup_stm32l432xx.lst startup_stm32l432xx.s
 
 
 

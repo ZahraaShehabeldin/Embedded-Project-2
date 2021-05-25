@@ -339,7 +339,7 @@
               <MiscControls></MiscControls>
               <Define>USE_HAL_DRIVER,STM32L432xx</Define>
               <Undefine></Undefine>
-              <IncludePath>../Core/Inc;    ../Drivers/STM32L4xx_HAL_Driver/Inc;    ../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy;    ../Drivers/CMSIS/Device/ST/STM32L4xx/Include;    ../Drivers/CMSIS/Include;   ../Middlewares/Third_Party/FreeRTOS/Source/include;   ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2;   ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F</IncludePath>
+              <IncludePath>../Core/Inc;      ../Drivers/STM32L4xx_HAL_Driver/Inc;      ../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy;      ../Drivers/CMSIS/Device/ST/STM32L4xx/Include;      ../Drivers/CMSIS/Include;     ../Middlewares/Third_Party/FreeRTOS/Source/include;     ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2;     ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -402,6 +402,21 @@
               <FileName>fonts.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Core\Src\fonts.c</FilePath>
+            </File>
+            <File>
+              <FileName>mylibrary.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Core\Src\mylibrary.c</FilePath>
+            </File>
+            <File>
+              <FileName>DC_MOTOR.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>D:\AUC\Spring 21\Embedded\Project 2\project2\Core\Src\DC_MOTOR.c</FilePath>
+            </File>
+            <File>
+              <FileName>DC_MOTOR_cfg.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>D:\AUC\Spring 21\Embedded\Project 2\project2\Core\Src\DC_MOTOR_cfg.c</FilePath>
             </File>
             <File>
               <FileName>main.c</FileName>
@@ -529,11 +544,6 @@
                   </Cads>
                 </FileArmAds>
               </FileOption>
-            </File>
-            <File>
-              <FileName>mylibrary.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Core\Src\mylibrary.c</FilePath>
             </File>
           </Files>
         </Group>

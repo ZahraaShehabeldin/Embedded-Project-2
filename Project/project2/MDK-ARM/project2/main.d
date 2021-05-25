@@ -52,3 +52,5 @@ project2\main.o: ../Core/Inc/mylibrary.h
 project2\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
 project2\main.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/queue.h
 project2\main.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/semphr.h
+project2\main.o: ../Core/Inc/DC_MOTOR.h
+project2\main.o: ../Core/Inc/DC_MOTOR_cfg.h

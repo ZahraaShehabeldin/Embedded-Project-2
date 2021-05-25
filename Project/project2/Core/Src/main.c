@@ -31,7 +31,8 @@
 #include "queue.h"
 #include "cmsis_os.h"
 #include "semphr.h"
-
+#include "DC_MOTOR.h"
+#include "DC_MOTOR_cfg.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -41,6 +42,8 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
+#define DC_MOTOR1    0
+
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -142,7 +145,8 @@ typedef struct {
 	int var=9;
 	char* str = "\r\n";
 	int flag =0;
-
+	uint8_t MOTOR1_DIR;
+  uint8_t DIR_FLAG;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -167,6 +171,29 @@ void SendReceive_BT();
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
+
+
+void DC_Motor_Cntrl()
+{
+	   DC_MOTOR_Set_Speed(DC_MOTOR1, 1000);
+
+		if(DIR_FLAG == 0)
+		{
+			MOTOR1_DIR = DIR_CW;
+			DIR_FLAG = 1;
+		}
+		else
+		{
+			MOTOR1_DIR = DIR_CCW;
+			DIR_FLAG = 0;
+		}
+		DC_MOTOR_Set_Dir(DC_MOTOR1, MOTOR1_DIR);
+
+//		readSensors(slots);
+
+		//HAL_Delay(5000);
+
+}
 int i=0;
 int count=0;
 char BluetoothMsg[50];
@@ -345,6 +372,11 @@ int main(void)
 	SSD1306_GotoXY (0,0); 										//Goto 0,0
 	SSD1306_Puts("HELLO", &Font_11x18, 0x01);		//puts HELLO on the display with color ie blue
 	SSD1306_UpdateScreen();										//print the changes on the display
+	
+	MOTOR1_DIR = DIR_CW;
+  DIR_FLAG = 0;
+	DC_MOTOR_Init(DC_MOTOR1);
+	DC_MOTOR_Start(DC_MOTOR1, DIR_CW, 0);
 //	
 //	SSD1306_GotoXY (10,0); 										//Goto 10,10
 //	SSD1306_Puts("WORLD", &Font_11x18, 1);		//puts WORLD on the display
@@ -362,6 +394,7 @@ int main(void)
 //	SSD1306_UpdateScreen();										//print the changes on the display	
 	
   /* USER CODE END 2 */
+
   /* Init scheduler */
   osKernelInitialize();
   /* Create the mutex(es) */
@@ -429,7 +462,7 @@ int main(void)
   /* USER CODE END RTOS_EVENTS */
 
   /* Start scheduler */
-  osKernelStart();
+  osKernelStart();////////////////////////////////////
 
   /* We should never get here as control is now taken by the scheduler */
   /* Infinite loop */
@@ -438,10 +471,23 @@ int main(void)
 	
   while (1)
   {
-	
-//		readSensors(slots);
+//	   DC_MOTOR_Set_Speed(DC_MOTOR1, 1000);
 
-//		HAL_Delay(1000);
+//		if(DIR_FLAG == 0)
+//		{
+//			MOTOR1_DIR = DIR_CW;
+//			DIR_FLAG = 1;
+//		}
+//		else
+//		{
+//			MOTOR1_DIR = DIR_CCW;
+//			DIR_FLAG = 0;
+//		}
+//		DC_MOTOR_Set_Dir(DC_MOTOR1, MOTOR1_DIR);
+
+////		readSensors(slots);
+
+//		HAL_Delay(5000);
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
@@ -575,6 +621,7 @@ static void MX_TIM2_Init(void)
 
   TIM_ClockConfigTypeDef sClockSourceConfig = {0};
   TIM_MasterConfigTypeDef sMasterConfig = {0};
+  TIM_OC_InitTypeDef sConfigOC = {0};
 
   /* USER CODE BEGIN TIM2_Init 1 */
 
@@ -594,15 +641,28 @@ static void MX_TIM2_Init(void)
   {
     Error_Handler();
   }
+  if (HAL_TIM_PWM_Init(&htim2) != HAL_OK)
+  {
+    Error_Handler();
+  }
   sMasterConfig.MasterOutputTrigger = TIM_TRGO_RESET;
   sMasterConfig.MasterSlaveMode = TIM_MASTERSLAVEMODE_DISABLE;
   if (HAL_TIMEx_MasterConfigSynchronization(&htim2, &sMasterConfig) != HAL_OK)
   {
     Error_Handler();
   }
+  sConfigOC.OCMode = TIM_OCMODE_PWM1;
+  sConfigOC.Pulse = 0;
+  sConfigOC.OCPolarity = TIM_OCPOLARITY_HIGH;
+  sConfigOC.OCFastMode = TIM_OCFAST_DISABLE;
+  if (HAL_TIM_PWM_ConfigChannel(&htim2, &sConfigOC, TIM_CHANNEL_1) != HAL_OK)
+  {
+    Error_Handler();
+  }
   /* USER CODE BEGIN TIM2_Init 2 */
 
   /* USER CODE END TIM2_Init 2 */
+  HAL_TIM_MspPostInit(&htim2);
 
 }
 
@@ -690,10 +750,20 @@ static void MX_GPIO_Init(void)
   __HAL_RCC_GPIOA_CLK_ENABLE();
   __HAL_RCC_GPIOB_CLK_ENABLE();
 
+  /*Configure GPIO pin Output Level */
+  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_6|GPIO_PIN_7, GPIO_PIN_RESET);
+
   /*Configure GPIO pins : PA0 PA1 */
   GPIO_InitStruct.Pin = GPIO_PIN_0|GPIO_PIN_1;
   GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
+  HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+
+  /*Configure GPIO pins : PA6 PA7 */
+  GPIO_InitStruct.Pin = GPIO_PIN_6|GPIO_PIN_7;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
   /*Configure GPIO pins : PB0 PB1 */
@@ -832,8 +902,10 @@ void StartTask05(void *argument)
   /* USER CODE BEGIN StartTask05 */
   /* Infinite loop */
   for(;;)
-  {
-    osDelay(1);
+  {		
+		DC_Motor_Cntrl();
+
+    osDelay(2000);
   }
   /* USER CODE END StartTask05 */
 }
