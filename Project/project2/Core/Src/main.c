@@ -175,7 +175,16 @@ void SendReceive_BT();
 
 void DC_Motor_Cntrl()
 {
-	   DC_MOTOR_Set_Speed(DC_MOTOR1, 1000);
+	int space_available=0;
+	for (int i=0;i<slots_num;i++)
+	{
+		if (slots[i].status=='E')
+			space_available =1;
+	}
+	
+	if(space_available)
+	{ 
+		DC_MOTOR_Set_Speed(DC_MOTOR1, 1000);
 
 		if(DIR_FLAG == 0)
 		{
@@ -188,6 +197,13 @@ void DC_Motor_Cntrl()
 			DIR_FLAG = 0;
 		}
 		DC_MOTOR_Set_Dir(DC_MOTOR1, MOTOR1_DIR);
+		
+	}
+	else
+	{
+	DC_MOTOR_Set_Speed(DC_MOTOR1, 0);
+
+	}
 
 //		readSensors(slots);
 
