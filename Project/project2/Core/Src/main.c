@@ -149,6 +149,9 @@ typedef struct {
 	uint16_t speed;
 	uint32_t delay;
 	int entry_car;
+	int bar_speed = 1000;
+	int bar_time=60;
+
 
 /* USER CODE END PV */
 
@@ -184,21 +187,23 @@ void DC_Motor_Cntrl()
 			space_available =1;
 	}
 	
-	if(space_available && entry_car==0)
+	if(entry_car==0)
 	{ 
 	if(HAL_GPIO_ReadPin(GPIOA , GPIO_PIN_8)== GPIO_PIN_RESET)
 	{
+		if(space_available==1){
 		entry_car=1;
 		//DC_MOTOR_Set_Speed(DC_MOTOR1, speed);
 		
 		if(DIR_FLAG == 0)
 		{
-			speed = 1000;
+			speed = bar_speed;
 
 			MOTOR1_DIR = DIR_CW;
 			DIR_FLAG = 1;
-			delay = 300;
+			delay = bar_time;
 		}
+	}
 
 //		else if(DIR_FLAG == 1)
 //		{
@@ -244,8 +249,6 @@ void DC_Motor_Cntrl()
 	}
 	
 }
-
-	
 	else if(entry_car==1)
 	{
  if(DIR_FLAG == 1)
@@ -257,10 +260,10 @@ void DC_Motor_Cntrl()
 		}
 		else if(DIR_FLAG == 2)
 		{
-			speed = 1000;
+			speed = bar_speed;
 			MOTOR1_DIR = DIR_CCW;
 			DIR_FLAG = 3;
-			delay = 300;
+			delay = bar_time;
 		}
 		else 
 		{
