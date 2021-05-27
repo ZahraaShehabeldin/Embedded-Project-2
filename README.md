@@ -108,7 +108,7 @@ Front View
 
 ## Milestones
 - Phase 1: Set on the Project Idea and design the Proposal.
-- Phase 2: Implement the system connections then test & tune the sensors with the MCU
+- Phase 2: Implement the system connections then test & tune the sensors with the MCU and start the booking system.
 - Final Phase: Fix the errors faced in implementation in phase 2. Also, work on the automatic gate using a DC motor and a sensor detecting the cars at entry. Finally, do a whole system testing and tuning and finalize the project.
 
 
