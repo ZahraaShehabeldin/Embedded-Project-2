@@ -57,7 +57,6 @@ I2C_HandleTypeDef hi2c1;
 TIM_HandleTypeDef htim2;
 
 UART_HandleTypeDef huart1;
-UART_HandleTypeDef huart2;
 
 /* Definitions for defaultTask */
 osThreadId_t defaultTaskHandle;
@@ -147,12 +146,15 @@ typedef struct {
 	int flag =0;
 	uint8_t MOTOR1_DIR;
   uint8_t DIR_FLAG;
+	uint16_t speed;
+	uint32_t delay;
+	int entry_car;
+
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
 static void MX_GPIO_Init(void);
-static void MX_USART2_UART_Init(void);
 static void MX_I2C1_Init(void);
 static void MX_USART1_UART_Init(void);
 static void MX_TIM2_Init(void);
@@ -182,28 +184,100 @@ void DC_Motor_Cntrl()
 			space_available =1;
 	}
 	
-	if(space_available)
+	if(space_available && entry_car==0)
 	{ 
-		DC_MOTOR_Set_Speed(DC_MOTOR1, 1000);
-
+	if(HAL_GPIO_ReadPin(GPIOA , GPIO_PIN_8)== GPIO_PIN_RESET)
+	{
+		entry_car=1;
+		//DC_MOTOR_Set_Speed(DC_MOTOR1, speed);
+		
 		if(DIR_FLAG == 0)
 		{
+			speed = 1000;
+
 			MOTOR1_DIR = DIR_CW;
 			DIR_FLAG = 1;
+			delay = 300;
 		}
-		else
-		{
-			MOTOR1_DIR = DIR_CCW;
-			DIR_FLAG = 0;
-		}
-		DC_MOTOR_Set_Dir(DC_MOTOR1, MOTOR1_DIR);
+
+//		else if(DIR_FLAG == 1)
+//		{
+			//	speed = 0;
+
+//			DIR_FLAG = 2;
+//			delay = 5000;
+//			////MOTOR1_DIR = DIR_CCW;
+//		}
+//		else if(DIR_FLAG == 2)
+//		{
+			//	speed = 1000;
+
+//			
+//			MOTOR1_DIR = DIR_CCW;
+//			DIR_FLAG = 3;
+//			delay = 300;
+//		}
+//		else 
+//		{
+		//	speed = 0;
+//			
+//			DIR_FLAG = 0;
+//			delay = 5000;
+//		}
+		
+//		DC_MOTOR_Set_Dir(DC_MOTOR1, MOTOR1_DIR);		
+		
+////		DC_MOTOR_Set_Speed(DC_MOTOR1, 1000);
+////		DC_MOTOR_Set_Dir(DC_MOTOR1, DIR_CW);
+////		HAL_Delay(1000);
+////		
+////		DC_MOTOR_Set_Speed(DC_MOTOR1, 0);
+////		HAL_Delay(2000);
+////		
+////		DC_MOTOR_Set_Speed(DC_MOTOR1, 1000);
+////		DC_MOTOR_Set_Dir(DC_MOTOR1, DIR_CCW);
+////		HAL_Delay(1000);
+
+////		
+////		DC_MOTOR_Set_Speed(DC_MOTOR1, 0);
 		
 	}
-	else
-	{
-	DC_MOTOR_Set_Speed(DC_MOTOR1, 0);
+	
+}
 
+	
+	else if(entry_car==1)
+	{
+ if(DIR_FLAG == 1)
+		{
+			speed = 0;
+			DIR_FLAG = 2;
+			delay = 5000;
+			////MOTOR1_DIR = DIR_CCW;
+		}
+		else if(DIR_FLAG == 2)
+		{
+			speed = 1000;
+			MOTOR1_DIR = DIR_CCW;
+			DIR_FLAG = 3;
+			delay = 300;
+		}
+		else 
+		{
+    	speed = 0;
+			DIR_FLAG = 0;
+			delay = 5000;
+			entry_car=0;
+		}
 	}
+		else
+	{
+		DC_MOTOR_Set_Speed(DC_MOTOR1, 0);
+	}
+	
+	DC_MOTOR_Set_Speed(DC_MOTOR1, speed);
+	DC_MOTOR_Set_Dir(DC_MOTOR1, MOTOR1_DIR);		
+
 
 //		readSensors(slots);
 
@@ -360,7 +434,6 @@ int main(void)
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
-  MX_USART2_UART_Init();
   MX_I2C1_Init();
   MX_USART1_UART_Init();
   MX_TIM2_Init();
@@ -375,7 +448,7 @@ int main(void)
 	memset(BluetoothMsg, 0, sizeof(BluetoothMsg));	//clear the buffer
 	HAL_TIM_Base_Start_IT(&htim2);			//launch the timer that launches every 20 msec 
   __HAL_UART_ENABLE_IT(&huart1, UART_IT_RXNE);  //enable UART interrupt
-	__HAL_UART_ENABLE_IT(&huart2, UART_IT_RXNE);  //enable UART interrupt  
+//	__HAL_UART_ENABLE_IT(&huart2, UART_IT_RXNE);  //enable UART interrupt  
 
 
 	SSD1306_Init();
@@ -389,10 +462,14 @@ int main(void)
 	SSD1306_Puts("HELLO", &Font_11x18, 0x01);		//puts HELLO on the display with color ie blue
 	SSD1306_UpdateScreen();										//print the changes on the display
 	
-	MOTOR1_DIR = DIR_CW;
-  DIR_FLAG = 0;
+
 	DC_MOTOR_Init(DC_MOTOR1);
 	DC_MOTOR_Start(DC_MOTOR1, DIR_CW, 0);
+	speed = 0;
+	delay = 2000;
+	MOTOR1_DIR = DIR_CW;
+  DIR_FLAG = 0;
+	entry_car=0;
 //	
 //	SSD1306_GotoXY (10,0); 										//Goto 10,10
 //	SSD1306_Puts("WORLD", &Font_11x18, 1);		//puts WORLD on the display
@@ -478,7 +555,7 @@ int main(void)
   /* USER CODE END RTOS_EVENTS */
 
   /* Start scheduler */
-  osKernelStart();////////////////////////////////////
+  osKernelStart();
 
   /* We should never get here as control is now taken by the scheduler */
   /* Infinite loop */
@@ -557,10 +634,8 @@ void SystemClock_Config(void)
   {
     Error_Handler();
   }
-  PeriphClkInit.PeriphClockSelection = RCC_PERIPHCLK_USART1|RCC_PERIPHCLK_USART2
-                              |RCC_PERIPHCLK_I2C1;
+  PeriphClkInit.PeriphClockSelection = RCC_PERIPHCLK_USART1|RCC_PERIPHCLK_I2C1;
   PeriphClkInit.Usart1ClockSelection = RCC_USART1CLKSOURCE_PCLK2;
-  PeriphClkInit.Usart2ClockSelection = RCC_USART2CLKSOURCE_PCLK1;
   PeriphClkInit.I2c1ClockSelection = RCC_I2C1CLKSOURCE_PCLK1;
   if (HAL_RCCEx_PeriphCLKConfig(&PeriphClkInit) != HAL_OK)
   {
@@ -718,41 +793,6 @@ static void MX_USART1_UART_Init(void)
 }
 
 /**
-  * @brief USART2 Initialization Function
-  * @param None
-  * @retval None
-  */
-static void MX_USART2_UART_Init(void)
-{
-
-  /* USER CODE BEGIN USART2_Init 0 */
-
-  /* USER CODE END USART2_Init 0 */
-
-  /* USER CODE BEGIN USART2_Init 1 */
-
-  /* USER CODE END USART2_Init 1 */
-  huart2.Instance = USART2;
-  huart2.Init.BaudRate = 9600;
-  huart2.Init.WordLength = UART_WORDLENGTH_8B;
-  huart2.Init.StopBits = UART_STOPBITS_1;
-  huart2.Init.Parity = UART_PARITY_NONE;
-  huart2.Init.Mode = UART_MODE_TX_RX;
-  huart2.Init.HwFlowCtl = UART_HWCONTROL_NONE;
-  huart2.Init.OverSampling = UART_OVERSAMPLING_16;
-  huart2.Init.OneBitSampling = UART_ONE_BIT_SAMPLE_DISABLE;
-  huart2.AdvancedInit.AdvFeatureInit = UART_ADVFEATURE_NO_INIT;
-  if (HAL_UART_Init(&huart2) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  /* USER CODE BEGIN USART2_Init 2 */
-
-  /* USER CODE END USART2_Init 2 */
-
-}
-
-/**
   * @brief GPIO Initialization Function
   * @param None
   * @retval None
@@ -769,8 +809,8 @@ static void MX_GPIO_Init(void)
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(GPIOA, GPIO_PIN_6|GPIO_PIN_7, GPIO_PIN_RESET);
 
-  /*Configure GPIO pins : PA0 PA1 */
-  GPIO_InitStruct.Pin = GPIO_PIN_0|GPIO_PIN_1;
+  /*Configure GPIO pins : PA0 PA1 PA8 */
+  GPIO_InitStruct.Pin = GPIO_PIN_0|GPIO_PIN_1|GPIO_PIN_8;
   GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
@@ -920,8 +960,9 @@ void StartTask05(void *argument)
   for(;;)
   {		
 		DC_Motor_Cntrl();
+    osDelay(delay);	
+		//osDelay(2000);	
 
-    osDelay(2000);
   }
   /* USER CODE END StartTask05 */
 }

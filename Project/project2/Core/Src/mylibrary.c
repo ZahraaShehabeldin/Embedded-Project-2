@@ -35,7 +35,7 @@ void Message_handler()
 	{
 		//HAL_GPIO_WritePin(LED_GPIO_Port, LED_Pin, RESET);
 		//HAL_UART_Transmit(&huart2, (uint8_t*)"LED is ON.\n", strlen("LED is ON.\n"), 500);
-		HAL_UART_Transmit(&huart2, (uint8_t*)buffer, strlen(buffer), 500);
+		//HAL_UART_Transmit(&huart2, (uint8_t*)buffer, strlen(buffer), 500);
 	}else
 	if(string_compare(buffer, "LED OFF", strlen("LED OFF")))
 	{

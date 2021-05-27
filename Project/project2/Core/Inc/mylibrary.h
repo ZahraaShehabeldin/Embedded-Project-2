@@ -17,7 +17,7 @@ extern char buffer[50];
 
 extern char BluetoothMsg[50];
 extern uint8_t timer_count, buffer_index;
-extern UART_HandleTypeDef huart1,huart2 ;
+extern UART_HandleTypeDef huart1;// , huart2;
 
 uint8_t string_compare(char array1[], char array2[], uint16_t length);
 void Message_handler();
