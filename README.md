@@ -10,7 +10,11 @@ Done By:
 
 ## Build and Use Instructions
 
-"""""""""""""""""""""""""""""""""""""
+1.
+2.
+3.
+4.
+5.
  
 ## References
 * Bachani, Mamta, et al. “Performance Analysis of Proximity and Light Sensors for Smart Parking.” Procedia Computer Science, vol. 83, 2016, pp. 385–392., doi:10.1016/j.procs.2016.04.200.
