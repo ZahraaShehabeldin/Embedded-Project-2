@@ -10,11 +10,12 @@ Done By:
 
 ## Build and Use Instructions
 
-1.
-2.
-3.
-4.
-5.
+1. To build this project clone both of the OLED and DC Motor files. 
+2. Upload the projcet on the Nucleo board.
+3. Follow this CubeMx diagram here for the Nucleo board connections: XXXX
+4. Open the bluetooth Serial terminal and connect to the BT module to book your parking slot.
+5. Check the initialized values here in the Keil file, and adjust them according to your prefrences: XXXX
+6. Run and build the whole code.
  
 ## References
 * Bachani, Mamta, et al. “Performance Analysis of Proximity and Light Sensors for Smart Parking.” Procedia Computer Science, vol. 83, 2016, pp. 385–392., doi:10.1016/j.procs.2016.04.200.
