@@ -12,7 +12,7 @@ Done By:
 
 1. To build this project clone both of the OLED and DC Motor files. 
 2. Upload the projcet on the Nucleo board.
-3. Follow this CubeMx diagram here for the Nucleo board connections: ![WhatsApp Image 2021-05-27 at 7 42 25 AM](https://user-images.githubusercontent.com/49562717/119775218-9c976600-bec3-11eb-9e1d-72a95f362a8c.jpeg)
+3. Follow this CubeMx diagram here for the Nucleo board connections: <img width="626" alt="Screen Shot 2021-05-27 at 8 22 14 AM" src="https://user-images.githubusercontent.com/49562717/119775995-aa99b680-bec4-11eb-997f-81321ff090d6.png">
 4. Open the bluetooth Serial terminal and connect to the BT module to book your parking slot.
 5. Check the initialized values in the Keil file, and adjust them according to your prefrences.
 6. Run and build the whole code.
